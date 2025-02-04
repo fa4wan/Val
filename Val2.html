@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>بحبك ولا لا؟ 😂</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff4757;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background: #2ed573;
+            color: white;
+        }
+
+        #noBtn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .hearts {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .heart {
+            font-size: 24px;
+            animation: float 3s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+
+        .message {
+            display: none;
+            font-size: 3em;
+            color: #ff6b6b;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>يا قمر، بتحبيني؟ 😍</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="showLove()">ايوة بحبك 🥰</button>
+            <button id="noBtn" onmouseover="danceButton()" onclick="shrinkButton()">لا مش بحبك 😒</button>
+        </div>
+        <div id="message" class="message">حبيبيتي يمزة 😘💖</div>
+    </div>
+    <div class="hearts" id="hearts"></div>
+
+    <script>
+        let noClickCount = 0;
+        const minSize = 0.3;
+
+        function shrinkButton() {
+            noClickCount++;
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // تصغير الزرار الأحمر
+            const newScale = Math.max(minSize, 1 - (noClickCount * 0.2));
+            noBtn.style.transform = `scale(${newScale})`;
+            
+            // تكبير الزرار الأخضر
+            yesBtn.style.transform = `scale(${1 + (noClickCount * 0.15)})`;
+            
+            createHearts();
+            
+            if(newScale <= minSize) {
+                noBtn.style.display = 'none';
+                yesBtn.style.transform = 'scale(1.5)';
+            }
+        }
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            for(let i = 0; i < 5; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 1 + 's';
+                heartsContainer.appendChild(heart);
+                
+                // إزالة القلوب بعد الانتهاء من الأنيميشن
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+
+        function showLove() {
+            document.querySelector('.buttons').style.display = 'none';
+            document.getElementById('message').style.display = 'block';
+            createHearts();
+        }
+
+        function danceButton() {
+            if(noClickCount < 3) {
+                const noBtn = document.getElementById('noBtn');
+                noBtn.style.transform = 'translateX(' + (Math.random() * 20 - 10) + 'px)';
+            }
+        }
+    </script>
+</body>
+</html>
